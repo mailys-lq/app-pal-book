@@ -8,7 +8,8 @@ import ButtonGreen from '../UX/ButtonGreen';
 
 const SignUp = () => {
 
-  const [name, setName] = useState('');
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation()
@@ -28,12 +29,15 @@ const SignUp = () => {
   // }
 
   const handleSignUp = async (event) => {
-    console.log(name)
+    navigation.navigate( 'HomeBook' );
+    console.log(firstname)
+    console.log(lastname)
     console.log(email)
     console.log(password)
     try {
       const response = await axios.post(`http://api-pal.test/api/user`, {
-        name,
+        firstname,
+        lastname, 
         email,
         password
       });
@@ -62,9 +66,15 @@ const SignUp = () => {
     >
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Nom et prénom"
-          value={name}
-          onChangeText={text => setName(text)}
+          placeholder="Nom"
+          value={lastname}
+          onChangeText={text => setLastname(text)}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="Prénom"
+          value={firstname}
+          onChangeText={text => setFirstname(text)}
           style={styles.input}
         />
         <TextInput

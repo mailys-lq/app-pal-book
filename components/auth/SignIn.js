@@ -16,11 +16,15 @@ const SignIn = () => {
   }, [])
 
   const handleSignIn = async (id) => {
+    navigation.navigate( 'HomeBook' );
+
     const url = `http://api-pal.test/api/user/${id}`
     console.log(url)
     const response = await axios.get(url)
     console.log(response.data)
   }
+
+  
 
   return (
     <KeyboardAvoidingView
