@@ -1,11 +1,11 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-const NumberUser = ({nbUser, nbHomeEditions}) => {    
+const NumberUser = ({}) => {    
     return (
         <View style={styles.containerNumberUser}>
-            <Text style={[styles.textGlobal, styles.user]}>{nbUser} utilisateurs</Text>
-            <Text style={[styles.textGlobal, styles.homeEditions]}>{nbHomeEditions} maisons d'éditions</Text>
+            <Text style={[styles.textGlobal, styles.user]}> 22 utilisateurs</Text>
+            <Text style={[styles.textGlobal, styles.homeEditions]}>22 maisons d'éditions</Text>
         </View>
     )
 }

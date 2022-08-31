@@ -49,7 +49,6 @@ const ListBook = () => {
     
     return (
         <View style={styles.containerListBook}>
-        <Text>Nos suggestions du mois</Text>
         <FlatList
             horizontal
             data={DATA}
@@ -64,15 +63,16 @@ export default ListBook
 
   const styles = StyleSheet.create({
     containerListBook: {
-        height: 170,
+        height: 200,
     },
     item: {
       margin: 10,
-      height: 170
+      height: 200,
+      // width: "100%"
     },
     itemImage: {
-      width: 105,
-      height: 170,
+      width: 300,
+      height: 200,
     },
     itemText: {
       color: 'rgba(255, 255, 255, 0.5)',

@@ -8,7 +8,8 @@ import ButtonGreen from '../UX/ButtonGreen';
 
 const SignUp = () => {
 
-  const [name, setName] = useState('');
+  const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation()
@@ -28,18 +29,25 @@ const SignUp = () => {
   // }
 
   const handleSignUp = async (event) => {
-    console.log(name)
-    console.log(email)
-    console.log(password)
+    navigation.navigate( 'HomeBook' );
+    // console.log(firstname)
+    // console.log(lastname)
+    // console.log(email)
+    // console.log(password)
     try {
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: "base64:ypLfynSQ6Yyuaogk5pY/nYs5XB095ieWOAcZTF7ErC8=",
+      };
       const response = await axios.post(`http://api-pal.test/api/user`, {
-        name,
+        firstname,
+        lastname, 
         email,
         password
-      });
+      }, headers);
       // alert(` You have created: ${JSON.stringify(response.data)}`);
 
-      // console.log(response)
+      console.log(response)
       // if (response.status === 201) {
       //   alert(` You have created: ${JSON.stringify(response.data)}`);
       //   setName('');
@@ -62,9 +70,15 @@ const SignUp = () => {
     >
       <View style={styles.inputContainer}>
         <TextInput
-          placeholder="Nom et prénom"
-          value={name}
-          onChangeText={text => setName(text)}
+          placeholder="Nom"
+          value={lastname}
+          onChangeText={text => setLastname(text)}
+          style={styles.input}
+        />
+        <TextInput
+          placeholder="Prénom"
+          value={firstname}
+          onChangeText={text => setFirstname(text)}
           style={styles.input}
         />
         <TextInput

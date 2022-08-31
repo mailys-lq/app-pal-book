@@ -1,48 +1,48 @@
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Button, Image, StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
-import ListBook from './ListBook'
-import NumberUser from './NumberUser'
-import ButtonGreen from './UX/ButtonGreen';
+import ListBook from '../book/ListBook'
+import NumberUser from '../NumberUser'
+import ButtonGreen from '../UX/ButtonGreen';
 
 const HomeBefore = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation(); 
+  const [book, setBook] = useState([])
 
+  useEffect(() => {
+    axios.get('https://www.googleapis.com/books/v1/volumes?q=in&orderBy=newest&maxResults=10&key=AIzaSyCxBFNJzM2OegkkQ1QWnSD0go-u1SdA6Ck')
+    .then(data => {
+      setBook(data.data.items)
+    })
+  }, [])
   const handleSignIn = () => {
     navigation.navigate( 'Connexion' );
-
-    // navigation.replace("Connexion")
   }
   const handleSignUp = () => {
     navigation.navigate( 'Inscription' );
-    // navigation.replace("Inscription")
   }
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
-      <Image style={styles.icon} source={require('../assets/icon.png')} />
+      <Image style={styles.icon} source={require('../../assets/icon.png')} />
       <Text style={styles.textHome}>Vous voulez mettre de l'ordre dans vos lectures ? {"\n"}Vous êtes au bon endroit !</Text>
       <ButtonGreen backgroundGreen={true} nameButton="Connexion" pressButton={handleSignIn}/>
-      {/* <TouchableOpacity
-        onPress={handleSignIn}
-        style={[styles.button, styles.buttonGreen]}
-      >
-        <Text>Connexion</Text>
-      </TouchableOpacity>       */}
       <TouchableOpacity
         onPress={handleSignUp}
         style={[styles.button, styles.buttonBorderGreen]}
       >
         <Text>Inscription</Text>
       </TouchableOpacity>   
-      <ListBook/>   
+      <ListBook nameList="Nos suggestions du mois" book={book}/>   
       <Text style={styles.textHome}>Un abonnement existe pour avoir accès à plus de fonctionnalités !</Text>
       <TouchableOpacity
         style={[styles.button, styles.buttonGreen]}
       >
         <Text>Premium</Text>
       </TouchableOpacity>  
-      <ListBook/>
-      <NumberUser nbUser={300} nbHomeEditions={4}/>
+      <ListBook nameList="Ils collaborent avec nous"/>
+      <NumberUser/>
     </ScrollView>
   );
 }
@@ -54,9 +54,6 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     width : "100%",
     height: "100%",
-    borderColor: 'red', 
-    borderWidth: 2,
-    borderBottomWidth: 0,
     backgroundColor: '#fff',
   },
   icon: {
