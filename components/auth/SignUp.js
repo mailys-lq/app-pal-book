@@ -30,20 +30,24 @@ const SignUp = () => {
 
   const handleSignUp = async (event) => {
     navigation.navigate( 'HomeBook' );
-    console.log(firstname)
-    console.log(lastname)
-    console.log(email)
-    console.log(password)
+    // console.log(firstname)
+    // console.log(lastname)
+    // console.log(email)
+    // console.log(password)
     try {
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: "base64:ypLfynSQ6Yyuaogk5pY/nYs5XB095ieWOAcZTF7ErC8=",
+      };
       const response = await axios.post(`http://api-pal.test/api/user`, {
         firstname,
         lastname, 
         email,
         password
-      });
+      }, headers);
       // alert(` You have created: ${JSON.stringify(response.data)}`);
 
-      // console.log(response)
+      console.log(response)
       // if (response.status === 201) {
       //   alert(` You have created: ${JSON.stringify(response.data)}`);
       //   setName('');

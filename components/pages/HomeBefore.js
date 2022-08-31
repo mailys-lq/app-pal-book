@@ -1,12 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { Button, Image, StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
-import ListBook from '../ListBook'
+import ListBook from '../book/ListBook'
 import NumberUser from '../NumberUser'
 import ButtonGreen from '../UX/ButtonGreen';
 
 const HomeBefore = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation(); 
+  const [book, setBook] = useState([])
 
+  useEffect(() => {
+    axios.get('https://www.googleapis.com/books/v1/volumes?q=in&orderBy=newest&maxResults=10&key=AIzaSyCxBFNJzM2OegkkQ1QWnSD0go-u1SdA6Ck')
+    .then(data => {
+      setBook(data.data.items)
+    })
+  }, [])
   const handleSignIn = () => {
     navigation.navigate( 'Connexion' );
   }
@@ -25,7 +34,7 @@ const HomeBefore = () => {
       >
         <Text>Inscription</Text>
       </TouchableOpacity>   
-      <ListBook nameList="Nos suggestions du mois"/>   
+      <ListBook nameList="Nos suggestions du mois" book={book}/>   
       <Text style={styles.textHome}>Un abonnement existe pour avoir accès à plus de fonctionnalités !</Text>
       <TouchableOpacity
         style={[styles.button, styles.buttonGreen]}
@@ -33,7 +42,7 @@ const HomeBefore = () => {
         <Text>Premium</Text>
       </TouchableOpacity>  
       <ListBook nameList="Ils collaborent avec nous"/>
-      <NumberUser nbUser={300} nbHomeEditions={4}/>
+      <NumberUser/>
     </ScrollView>
   );
 }

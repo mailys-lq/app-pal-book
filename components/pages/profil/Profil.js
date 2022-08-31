@@ -1,22 +1,20 @@
 import { useNavigation } from '@react-navigation/native';
 import { Image, StyleSheet, Text, View, ScrollView } from 'react-native';
-import ListBook from '../ListBook'
-import NumberUser from '../NumberUser'
+import ListBook from '../../book/ListBook'
+import NumberUser from '../../NumberUser'
+import Header from '../../UX/header/Header';
 
 const Profil = () => {
   const navigation = useNavigation()
 
-  const handleSignIn = () => {
-    navigation.navigate( 'Connexion' );
-  }
-  const handleSignUp = () => {
-    navigation.navigate( 'Inscription' );
-  }
-
+    const handleEditProfil = async () => {
+        navigation.navigate( 'EditProfil' );
+    }
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+      <Header update={true} handleEditProfil={handleEditProfil}/>
       <View style={styles.containeStartProfil}>
-        <Image style={styles.icon} source={require('../../assets/image-profil.png')} />
+        <Image style={styles.icon} source={require('../../../assets/image-profil.png')} />
         <Text style={[styles.textRead, styles.textReadPages]}>234 pages lu</Text>
         <Text style={[styles.textRead, styles.textReadBook]}>34 livres lu</Text>
         <Text style={[styles.nameProfil]}>Maïlys Le Quintrec</Text>
@@ -26,7 +24,7 @@ const Profil = () => {
       <ListBook nameList="Vos manga favories" edit={true}/>   
       <ListBook nameList="Vos BD favories" edit={true}/>   
       <ListBook nameList="Les éditeurs que vous suivez"/>   
-      <NumberUser nbUser={300} nbHomeEditions={4}/>
+      <NumberUser/>
     </ScrollView>
   );
 }
@@ -40,6 +38,9 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems:'center',
+    zIndex: 210, 
+    top: -80, 
+    height: 150
 
   }, 
   container: {
@@ -76,23 +77,4 @@ const styles = StyleSheet.create({
     marginTop: 70, 
     fontSize: 22,
   }, 
-  button: {
-    color: 'black', 
-    width: 200, 
-    height: 60,
-    display: 'flex', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    borderRadius: 5, 
-    marginVertical: 5, 
-    marginHorizontal: 5, 
-  }, 
-  buttonGreen: {
-    backgroundColor: '#7DC996', 
-  }, 
-  buttonBorderGreen: {
-    borderWidth: 2, 
-    borderColor: '#7DC996', 
-    borderStyle: 'solid'
-  }
 });

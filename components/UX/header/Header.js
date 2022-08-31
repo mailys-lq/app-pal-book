@@ -1,24 +1,28 @@
 
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Image, StyleSheet, Text, TouchableOpacity, ImageBackground } from 'react-native';
 
-const Header = ({title, update, add}) => {
+const Header = ({title, update, add, handleEditProfil, addBookFavory, returnBack}) => {
+    const navigation = useNavigation()
 
-  return (
+    const handleReturnBack = async () => {
+        navigation.goBack();  
+    }
     
-    <View style={{backgroundColor: 'pink',height: 90, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200}}>
-        <View style={[styles.losange]}></View>
-        <View style={[styles.blockHeaderRadius, {left: 0, }]}></View>
-        <View style={[styles.blockHeaderRadius, {right: 0}]}></View>
-        <Text>{title}</Text>
-        <View  style={[{top: 70, right: 15, position: 'absolute', backgroundColor: 'red', width: 35, height: 35, borderRadius: 50, justifyContent: 'center', flexDirection: 'row', alignItems: 'center'}, add == true ? {display: 'flex'} : {display: 'none'}]}>
-            <Text style={{position: 'absolute', fontSize: 25}}>+</Text>
-        </View>
-        <View  style={[{top: 70, right: 15, position: 'absolute', backgroundColor: 'red', width: 35, height: 35, borderRadius: 50, justifyContent: 'center', flexDirection: 'row', alignItems: 'center'}, update == true ? {display: 'flex'} : {display: 'none'}]}>
-            <Image source={require('../../../assets/edit-icon.png')}  style={[styles.iconImageEdit ]} resizeMode="cover"/>             
-        </View>
-    </View>
-          
-  );
+    return (
+        <ImageBackground source={require('../../../assets/header.png')} resizeMode="cover" style={{height: 180, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200, position: 'relative', top: -30}}>
+            <Text style={{width: 200, textAlign: 'center'}}>{title}</Text>
+            <TouchableOpacity onPress={addBookFavory} style={[styles.buttonAdd, add == true ? {display: 'flex'} : {display: 'none'}]}>
+                <Text style={{position: 'absolute', fontSize: 30}}>+</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={[{padding: 10, position: 'absolute', left: 0}, returnBack == true ? {display: 'flex'} : {display: 'none'}]} onPress={handleReturnBack}><Image style={{width: 30, height: 30}} source={require('../../../assets/return-back.png')}/></TouchableOpacity>
+            <TouchableOpacity onPress={handleEditProfil} style={[styles.buttonEdit, update == true ? {display: 'flex'} : {display: 'none'}]}>
+                <Image source={require('../../../assets/edit-icon.png')}  style={[styles.iconImageEdit, {width: 20, height: 20} ]} resizeMode="cover"/>             
+            </TouchableOpacity>
+        </ImageBackground>
+            
+    );
 }
 
 export default Header
@@ -32,15 +36,31 @@ const styles = StyleSheet.create({
         borderBottomColor: 'green', 
         borderBottomWidth: 5,
     }, 
-    losange: {
-        width: 100, 
-        height: 100, 
-        backgroundColor: 'pink', 
-        borderColor: 'green', 
-        borderBottomWidth: 5,
-        borderRightWidth: 5,
-        transform: [{rotate: '45deg'}], 
-        position: 'absolute',
-        top: 30,
-    }
+    buttonAdd: {
+        top: 150, 
+        position: 'absolute', 
+        backgroundColor: '#7DC996', 
+        width: 50, 
+        height: 50, 
+        borderRadius: 50, 
+        justifyContent: 'center', 
+        flexDirection: 'row', 
+        alignItems: 'center'
+    }, 
+    buttonEdit: {
+        top: 70, 
+        right: 15, 
+        position: 'absolute', 
+        backgroundColor: '#7DC996',
+        width: 35,
+        height: 35, 
+        borderRadius: 50, 
+        justifyContent: 'center', 
+        flexDirection: 'row', 
+        alignItems: 'center'
+    },
+    image: {
+        flex: 1,
+        justifyContent: "center"
+      },
 });

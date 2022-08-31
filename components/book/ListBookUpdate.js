@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { FlatList, Image, StyleSheet, Text, View } from 'react-native'
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-const ListBook = ({nameList, edit}) => {
+const ListBookUpdate = ({nameList}) => {
     const [DATA, setDATA] = useState([
         {
             key: '1',
@@ -42,6 +42,9 @@ const ListBook = ({nameList, edit}) => {
               style={styles.itemImage}
               resizeMode="cover"
             />
+                    
+            <TouchableOpacity style={styles.buttonDeleteBook}><Text>X</Text></TouchableOpacity>
+
           </View>
         );
       };
@@ -49,10 +52,7 @@ const ListBook = ({nameList, edit}) => {
     
     return (
         <View style={styles.containerListBook}>
-          <Text style={{marginBottom: 5}}>{nameList}</Text>
-          <View style={[styles.containerIconImageEdit,  edit == true ? {display: 'flex', position: 'absolute', right: 30} : {display: 'none'}]}>
-            <Image source={require('../assets/edit-icon.png')}  style={[styles.iconImageEdit ]} resizeMode="cover"/>             
-          </View>
+          <Text style={{marginLeft: 10, marginBottom: 5}}>{nameList}</Text>
           <FlatList
               horizontal
               data={DATA}
@@ -63,7 +63,7 @@ const ListBook = ({nameList, edit}) => {
     )
 }
 
-export default ListBook
+export default ListBookUpdate
 
   const styles = StyleSheet.create({
     containerListBook: {
@@ -101,5 +101,17 @@ export default ListBook
       backgroundColor: '#7DC996', 
       borderRadius: 50, 
       color: 'white'
+    },
+    buttonDeleteBook: {
+      position: 'absolute', 
+      backgroundColor: '#7DC996', 
+      width: 20, 
+      height: 20, 
+      borderRadius: 25, 
+      display: 'flex', 
+      justifyContent: 'center', 
+      alignItems: 'center',
+      top: -10,
+      right: -10,
     }
   });

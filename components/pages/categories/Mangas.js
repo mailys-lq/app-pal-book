@@ -25,7 +25,7 @@ const Library = () => {
         <Image style={styles.icon} source={require('../../../assets/books/vurginie-grimaldi-livre.png')} />
         <Image style={styles.icon} source={require('../../../assets/books/vurginie-grimaldi-livre.png')} />
       </View>
-      <NumberUser nbUser={300} nbHomeEditions={4}/>
+      <NumberUser/>
     </ScrollView>
   );
 }

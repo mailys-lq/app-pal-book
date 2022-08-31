@@ -5,7 +5,7 @@ import HomeBefore from "../pages/HomeBefore";
 import HomeBook from "../pages/HomeBook";
 import Library from "../pages/Library";
 import Search from "../pages/Search";
-import Profil from "../pages/Profil";
+import Profil from "../pages/profil/Profil";
 
 const Stack = createStackNavigator();
 
