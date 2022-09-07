@@ -19,6 +19,10 @@ const Library = () => {
   }, []);
 
   
+  const showBook = (id_book, key) => {
+    navigation.navigate('Book', {id_book: id_book});
+  }
+  
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
       <View style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center'}}>

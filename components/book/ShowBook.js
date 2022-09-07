@@ -110,8 +110,8 @@ const ShowBook = ({route}) => {
         <Header title={book.title} add={true} returnBack={true} addBookRead={addBookRead} style={{zIndex: 10, position: 'relative'}}/>
         <View style={[{position: 'relative', zIndex: 4}]}>
             <Image source={{uri: book.imageLinks == undefined ? "https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.webp" : book.imageLinks.thumbnail}} style={styles.imageBookCenter}/>
-            <Image source={{uri: book.imageLinks == undefined ? "https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.webp" : book.imageLinks.smallThumbnail}} style={[styles.imageBook, styles.imageBookLeft]}/>
-            <Image source={{uri: book.imageLinks == undefined ? "https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.webp" : book.imageLinks.smallThumbnail}} style={[styles.imageBook, styles.imageBookRight]}/>
+            <Image source={{uri: book.imageLinks == undefined ? "https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.webp" : book.imageLinks.smallThumbnail}} style={[styles.imageBook, styles.imageBookLeft, {opacity: 0.5}]}/>
+            <Image source={{uri: book.imageLinks == undefined ? "https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.webp" : book.imageLinks.smallThumbnail}} style={[styles.imageBook, styles.imageBookRight, {opacity: 0.5}]}/>
         </View>
         <View style={[{width: '100%', display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', marginTop: 40}, ]}>
             <Text style={styles.labelItemBook}>Auteur : </Text>
@@ -138,13 +138,6 @@ const ShowBook = ({route}) => {
             <Text style={{fontSize: 15,  marginLeft: 5}}>{book.categories ?  book.categories.map((category, i, arr) => ( i == arr.length - 1 ? category : category + ', ' )): 'Nom d\'auteur inconnue'}</Text>
         </View>
 
-        <Text style={[styles.labelItemBook, { marginTop: 15, display: 'flex', width: '100%', alignItems: 'flex-start'}]}>Description : </Text>
-        <Text style={{marginHorizontal: 5, marginTop: 10, padding: 50}}>
-            <HTMLView value={book.description} />
-        </Text>
-
-        <ListBook nameList='Les autres tomes de la séries'/>
-        <ListBook nameList='Où trouver ce livre'/>
         <NumberUser/>
     </ScrollView>
   );
