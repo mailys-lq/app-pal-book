@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 const ListBook = ({nameList, edit, book, noClick, gender}) => {
     
   const navigation = useNavigation()
-  
+
   const openFavoriesList = async () => {
     navigation.navigate( 'FavoriesList', {gender: gender} );
   }
@@ -64,7 +64,7 @@ const ListBook = ({nameList, edit, book, noClick, gender}) => {
               keyExtractor={(item, index) => index.toString()}
               renderItem={({ item, index }) => <ListItem key={index} item={item} />}
               showsHorizontalScrollIndicator={false}
-          /> 
+          />
           
           
         </View>

@@ -67,7 +67,7 @@ const CardBookFavorySearch = ({item, gender}) => {
               uri: item.volumeInfo.imageLinks == undefined ? "https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.webp" : item.volumeInfo.imageLinks.thumbnail,
             }}
           />        
-          <Text style={{marginLeft: 10}}>{item.volumeInfo.title}</Text>
+          <Text style={{marginLeft: 10, width: '80%'}}>{item.volumeInfo.title}</Text>
         <TouchableOpacity onPress={addToFavorites} style={{position: 'absolute', right: 15}}><Image style={{width: 30, height: 30}} source={require('../../assets/hearth.png')}/></TouchableOpacity>
       </View>      
   );
