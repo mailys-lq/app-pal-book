@@ -43,7 +43,6 @@ const HomeBefore = () => {
         onChangeText={setBook}
         value={book}
         placeholder="Votre recherche ... " 
-        keyboardType="text"
         onKeyPress={handleSubmit}
       />
       

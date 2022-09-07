@@ -6,8 +6,12 @@ import ListBook from '../book/ListBook'
 import NumberUser from '../NumberUser'
 import ButtonRound from '../UX/ButtonRound';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import BackgroundBook from '../UX/BackgroundBook';
+
 
 const HomeBefore = () => {
+  const [carousel, setCarousel] = useState([])
   const [book, setBook] = useState([])
   const [bd, setBd] = useState([])
   const [manga, setManga] = useState([])
@@ -16,6 +20,16 @@ const HomeBefore = () => {
 
  
   useEffect(() => {
+    // console.log('coucou home boko')
+    AsyncStorage.getItem('US48', (err, result) => {
+      console.log(result);
+    });
+    
+    axios.get("https://www.googleapis.com/books/v1/volumes?q=mortal&subject:fiction&key="+apiKey)
+    .then(data => {
+      setCarousel(data.data.items)
+    })
+    
     axios.get("https://www.googleapis.com/books/v1/volumes?q=subject:fiction&key="+apiKey)
     .then(data => {
       setBook(data.data.items)
@@ -45,12 +59,10 @@ const HomeBefore = () => {
   return (
 
       <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+        <BackgroundBook/>
         <Image style={styles.icon} source={require('../../assets/icon.png')} />
-        <CarrouselBook/>
+        {/* <CarrouselBook book={carousel}/> */}
         <ListBook nameList="Romans" book={book}/>   
-        
-        <ListBook nameList="Les éditeurs favoris du moment" round={true} />
-
         <View>
           <Text style={{marginLeft: 10, marginTop: 10}}>Genre recherché</Text>
           <View style={styles.containerButtonsCategory}>

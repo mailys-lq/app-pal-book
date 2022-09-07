@@ -5,6 +5,8 @@ import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import axios from 'axios';
 import ButtonGreen from '../UX/ButtonGreen';
+import useJwt from './useJwt';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SignUp = () => {
 
@@ -13,52 +15,58 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation()
+  const { createJwt, decodeJwt, jwtExpired, haveJwt, jwt, jwtDecode } = useJwt();
 
   useEffect(() => {
     
   }, [])
 
-  // const handleSignUp = async () => {
-    
-  //   const url = `http://api-pal.test/api/user`
-    
-  //   console.log(url)
-  //   const response = await axios.post(url)
-  //   console.log(response.data)
-
-  // }
 
   const handleSignUp = async (event) => {
-    navigation.navigate( 'HomeBook' );
-    // console.log(firstname)
-    // console.log(lastname)
-    // console.log(email)
-    // console.log(password)
-    try {
-      const headers = {
-        "Content-Type": "application/json",
-        Authorization: "base64:ypLfynSQ6Yyuaogk5pY/nYs5XB095ieWOAcZTF7ErC8=",
-      };
-      const response = await axios.post(`http://api-pal.test/api/user`, {
-        firstname,
-        lastname, 
-        email,
-        password
-      }, headers);
-      // alert(` You have created: ${JSON.stringify(response.data)}`);
+    // navigation.navigate( 'HomeBook' );
+   
 
-      console.log(response)
-      // if (response.status === 201) {
-      //   alert(` You have created: ${JSON.stringify(response.data)}`);
-      //   setName('');
-      //   setEmail('');
-      //   setPassword('');
-      // } else {
-      //   throw new Error("An error has occurred");
-      // }
-    } catch (error) {
-      console.log(error)
-      alert("An error has occurred");
+      axios.post('https://api-pal.herokuapp.com/api/user', {
+        
+        "firstname": firstname,
+        "lastname": lastname, 
+        "email": email,
+        "password": password
+      })
+      .then(async (res) => {
+        const jwt = process.env['JWT_TOKEN'] + res.data.id;
+        await storeJwtOnStorage(jwt)
+        navigation.navigate( 'HomeBook' );
+      })
+      .catch((error) => {
+        console.error('coucou error')
+        console.error(error)
+      })
+
+  };
+
+  const storeJwtOnStorage = async (token) => {
+    console.log('denfi')
+    console.log(token)
+
+    // console.log(JSON.stringify(token))
+    try {
+      AsyncStorage.getItem(
+        'US48', (err, result) => {
+          console.log(result);
+          if(result){
+            AsyncStorage.mergeItem(
+              'US48',
+            )              
+          } else {
+            AsyncStorage.setItem(
+              'US48',
+            )    
+          }
+      });
+      console.log('coucouc storage')
+    } catch (e) {
+      console.log('impossible de stoker le jwt dans le storage : ', e);
     }
   };
 
