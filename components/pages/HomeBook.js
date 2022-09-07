@@ -11,7 +11,6 @@ import BackgroundBook from '../UX/BackgroundBook';
 
 
 const HomeBefore = () => {
-  const [carousel, setCarousel] = useState([])
   const [book, setBook] = useState([])
   const [bd, setBd] = useState([])
   const [manga, setManga] = useState([])
@@ -20,15 +19,6 @@ const HomeBefore = () => {
 
  
   useEffect(() => {
-    // console.log('coucou home boko')
-    AsyncStorage.getItem('US48', (err, result) => {
-      console.log(result);
-    });
-    
-    axios.get("https://www.googleapis.com/books/v1/volumes?q=mortal&subject:fiction&key="+apiKey)
-    .then(data => {
-      setCarousel(data.data.items)
-    })
     
     axios.get("https://www.googleapis.com/books/v1/volumes?q=subject:fiction&key="+apiKey)
     .then(data => {
@@ -61,7 +51,6 @@ const HomeBefore = () => {
       <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
         <BackgroundBook/>
         <Image style={styles.icon} source={require('../../assets/icon.png')} />
-        {/* <CarrouselBook book={carousel}/> */}
         <ListBook nameList="Romans" book={book}/>   
         <View>
           <Text style={{marginLeft: 10, marginTop: 10}}>Genre recherché</Text>
@@ -97,25 +86,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15, 
     marginVertical: 30
   }, 
-  button: {
-    color: 'black', 
-    width: 200, 
-    height: 60,
-    display: 'flex', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    borderRadius: 5, 
-    marginVertical: 5, 
-    marginHorizontal: 5, 
-  }, 
-  buttonGreen: {
-    backgroundColor: '#7DC996', 
-  }, 
-  buttonBorderGreen: {
-    borderWidth: 2, 
-    borderColor: '#7DC996', 
-    borderStyle: 'solid'
-  },
   containerButtonsCategory: {
     display: 'flex', 
     flexDirection: 'row',

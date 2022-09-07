@@ -18,7 +18,6 @@ const HomeBefore = () => {
   const navigation = useNavigation()
 
   const showBook = (id_book, key) => {
-    // console.log(id_book)
     navigation.navigate('Book', {id_book: id_book});
   }
 

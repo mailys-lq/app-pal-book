@@ -16,14 +16,10 @@ const FavoriesList = ({route}) => {
     let book_push = [];
     axios.get("https://api-pal.herokuapp.com/api/favorite")
       .then((res) => {
-        // console.log(res.data)
-
           res.data.some(async function(book) {
             axios.get("https://www.googleapis.com/books/v1/volumes/"+book.id_book+"?key="+apiKey)
             .then(data => {
-              // console.log(data.data)
               book_push.push(data.data);
-              // console.log(book_push)
               setBook(book_push)
             })
           });
@@ -31,7 +27,6 @@ const FavoriesList = ({route}) => {
         .catch((error) => {
           console.log(error)
         })
-        console.log(book_push)
   }, [])
   const addBookFavory = () => {
     navigation.navigate( 'FavoriesListAdd', {gender: route.params.gender} );
@@ -41,25 +36,14 @@ const FavoriesList = ({route}) => {
     <ScrollView style={styles.container} contentContainerStyle={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Header add={true} addBookRead={addBookFavory} title='Listes des favories' returnBack={true}/>
         <View style={{display: 'flex', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
-            { book.length == 0 ?<Text>Pas de livres en favories</Text> : 
-              <FlatList
-                horizontal
-                data={book}
-                renderItem={({ item }) => <CardBookImage item={item} />}
-                showsHorizontalScrollIndicator={false}
-            /> 
-            }
-            {/* <CardBookImage/>
-            <CardBookImage/>
-            <CardBookImage/>
-            <CardBookImage/>
-            <CardBookImage/>
-            <CardBookImage/>
-            <CardBookImage/>
-            <CardBookImage/>
-            <CardBookImage/>
-            <CardBookImage/>
-            <CardBookImage/> */}
+          { book.length == 0 ?<Text>Pas de livres en favories</Text> : 
+            <FlatList
+              horizontal
+              data={book}
+              renderItem={({ item }) => <CardBookImage item={item} />}
+              showsHorizontalScrollIndicator={false}
+          /> 
+          }
         </View>
         <NumberUser style={{marginHorizontal:'auto'}}/>
     </ScrollView>
@@ -87,23 +71,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15, 
     marginVertical: 30
   }, 
-  button: {
-    color: 'black', 
-    width: 200, 
-    height: 60,
-    display: 'flex', 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    borderRadius: 5, 
-    marginVertical: 5, 
-    marginHorizontal: 5, 
-  }, 
-  buttonGreen: {
-    backgroundColor: '#7DC996', 
-  }, 
-  buttonBorderGreen: {
-    borderWidth: 2, 
-    borderColor: '#7DC996', 
-    borderStyle: 'solid'
-  }
 });

@@ -42,8 +42,7 @@ const CardBookFavorySearch = ({item, gender}) => {
                 console.log(res.data)
             })
             .catch((error) => {
-                console.error('coucou error')
-                console.error(error)
+                console.log(error)
             })
         } else {            
 
@@ -52,8 +51,7 @@ const CardBookFavorySearch = ({item, gender}) => {
                 console.log(res.data)
             })
             .catch((error) => {
-                console.error('coucou error')
-                console.error(error)
+                console.log(error)
             })
         }
   }

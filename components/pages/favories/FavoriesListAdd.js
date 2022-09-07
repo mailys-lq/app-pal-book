@@ -15,14 +15,10 @@ const FavoriesListAdd = ({route}) => {
     let book_push = [];
     axios.get("https://api-pal.herokuapp.com/api/reading_list")
       .then((res) => {
-        // console.log(res.data)
-
           res.data.some(async function(book) {
             axios.get("https://www.googleapis.com/books/v1/volumes/"+book.id_book+"?key="+apiKey)
             .then(data => {
-              // console.log(data.data)
               book_push.push(data.data);
-              // console.log(book_push)
               setBook(book_push)
             })
           });
@@ -30,7 +26,6 @@ const FavoriesListAdd = ({route}) => {
         .catch((error) => {
           console.log(error)
         })
-        console.log(book_push)
   }, [])
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
@@ -44,7 +39,6 @@ const FavoriesListAdd = ({route}) => {
         />
         <View style={{display: 'flex', width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
           <FlatList
-            
             data={book}
             renderItem={({ item }) => <CardBookFavorySearch item={item} gender={route.params.gender} />}
             showsHorizontalScrollIndicator={false}
@@ -70,8 +64,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginHorizontal: 10,
-    backgroundColor: '#aff4c66b',
-     
+    backgroundColor: '#aff4c66b', 
     textAlign: 'left'
   }
 });

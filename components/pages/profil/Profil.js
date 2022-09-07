@@ -86,7 +86,6 @@ const Profil = () => {
               axios.get("https://www.googleapis.com/books/v1/volumes/"+reading_list.id_book+"?key="+apiKey)
               .then(data => {
                 if(data.pageCount) {
-                  console.log(data.pageCount);
                   setCountPage(countPage + data.pageCount); 
                 }
               })
@@ -104,7 +103,6 @@ const Profil = () => {
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
       <Header update={true} handleEditProfil={handleEditProfil} logout={true}/>
       <View style={styles.containeStartProfil}>
-        {/* <Image style={styles.icon} source={{uri: user.url_image_profil}} /> */}
         <Image style={[styles.icon, {borderRadius: 50}]} source={{uri: user.url_image_profil == undefined ? "https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.webp" : user.url_image_profil}}/>
 
         <Text style={[styles.textRead, styles.textReadPages]}>{countPage} pages lu</Text>
@@ -115,7 +113,6 @@ const Profil = () => {
       <ListBook nameList="Vos romans favories" edit={true} gender="roman" book={roman}/>   
       <ListBook nameList="Vos manga favories" edit={true} gender="manga" book={manga}/>   
       <ListBook nameList="Vos BD favories" edit={true} gender="bd" book={bd}/>   
-      <ListBook nameList="Les éditeurs que vous suivez"/>   
       <NumberUser/>
     </ScrollView>
   );

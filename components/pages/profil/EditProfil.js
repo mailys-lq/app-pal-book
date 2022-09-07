@@ -44,7 +44,6 @@ const EditProfil = ({route}) => {
           }
         });
         if(data.data) {
-          console.log(data.pageCount);
           setCountPage(countPage + data.pageCount); 
         }
       })

@@ -23,9 +23,6 @@ const SignUp = () => {
 
 
   const handleSignUp = async (event) => {
-    // navigation.navigate( 'HomeBook' );
-   
-
       axios.post('https://api-pal.herokuapp.com/api/user', {
         
         "firstname": firstname,
@@ -39,35 +36,9 @@ const SignUp = () => {
         navigation.navigate( 'HomeBook' );
       })
       .catch((error) => {
-        console.error('coucou error')
         console.error(error)
       })
 
-  };
-
-  const storeJwtOnStorage = async (token) => {
-    console.log('denfi')
-    console.log(token)
-
-    // console.log(JSON.stringify(token))
-    try {
-      AsyncStorage.getItem(
-        'US48', (err, result) => {
-          console.log(result);
-          if(result){
-            AsyncStorage.mergeItem(
-              'US48',
-            )              
-          } else {
-            AsyncStorage.setItem(
-              'US48',
-            )    
-          }
-      });
-      console.log('coucouc storage')
-    } catch (e) {
-      console.log('impossible de stoker le jwt dans le storage : ', e);
-    }
   };
 
 

@@ -5,18 +5,11 @@ import { Button, Image, StyleSheet, Text, View, TouchableOpacity, ScrollView } f
 import ListBook from '../book/ListBook'
 import NumberUser from '../NumberUser'
 import ButtonGreen from '../UX/ButtonGreen';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import BackgroundBook from '../UX/BackgroundBook';
 
 const HomeBefore = () => {
   const navigation = useNavigation(); 
   const [book, setBook] = useState([])
-
-  const clearAsyncStorage = async() => {
-    console.log('coucoucdozfcizhf')
-    AsyncStorage.removeItem('US48');
-  }
-
 
   useEffect(() => {
     clearAsyncStorage();

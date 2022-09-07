@@ -16,9 +16,7 @@ const ShowBook = ({route}) => {
     const [book, setBook] = useState([])
     const [bookRead, setBookRead] = useState(0)
     const [idReadingList, setIdReadingList] = useState(0)
-    const { createJwt, decodeJwt, jwtExpired, haveJwt, jwt, jwtDecode } = useJwt();
-
-    console.log(route.params.id_book);
+    const { decodeJwt } = useJwt();
     useEffect(() => {
         axios.get("https://www.googleapis.com/books/v1/volumes/"+route.params.id_book+"?key="+apiKey)
         .then(data => {
@@ -32,9 +30,7 @@ const ShowBook = ({route}) => {
         .then((res) => {
             res.data.some(element => {
                 if(element.id_book == route.params.id_book) {
-                    setBookRead(element.book_read);
-                    console.log(element.book_read); 
-                    
+                    setBookRead(element.book_read);                    
                 } else {
                     return false;
                 }
@@ -50,34 +46,29 @@ const ShowBook = ({route}) => {
         let user_id; 
         await AsyncStorage.getItem('US48')
         .then((res_async) => {
-            console.log(res_async)
             user_id = decodeJwt(res_async); 
         })
         .catch((err) => {
         })
         
-        // console.log(route.params.id_book);
-        // // AsyncStorage.removeItem('user');
-        // console.log(Date.now())
-        // console.log('coucou read')
-        // axios.get("https://api-pal.herokuapp.com/api/reading_list")
-        // .then((res) => {
-        //     res.data.some(element => {
-        //         if(element.id_book == route.params.id_book) {
-        //             setBookRead(element.book_read_number);
-        //             setIdReadingList(element.id)
-        //         } else {
-        //             return false;
-        //         }
-        //     });
-        // })
-        // .catch((error) => {
-        //     console.log(error)
-        // })
+        console.log(route.params.id_book);
+
+        axios.get("https://api-pal.herokuapp.com/api/reading_list")
+        .then((res) => {
+            res.data.some(element => {
+                if(element.id_book == route.params.id_book) {
+                    setBookRead(element.book_read_number);
+                    setIdReadingList(element.id)
+                } else {
+                    return false;
+                }
+            });
+        })
+        .catch((error) => {
+            console.log(error)
+        })
 
         if(bookRead == 0 || bookRead == undefined) { 
-            console.log('user_id')
-            console.log(user_id)
             await axios.post('https://api-pal.herokuapp.com/api/reading_list', {
                 "id_book": route.params.id_book,
                 "user_id": 1, //id récupérer en local storage 
@@ -91,7 +82,6 @@ const ShowBook = ({route}) => {
                 console.error(error)
             })
         } else {            
-            console.log('coducidj')
             await axios.put(`https://api-pal.herokuapp.com/api/reading_list/${idReadingList}`, {
                 "book_read_number": bookRead + 1
             })
@@ -99,7 +89,6 @@ const ShowBook = ({route}) => {
                 console.log(res.data)
             })
             .catch((error) => {
-                console.error('coucou error')
                 console.error(error)
             })
         }
