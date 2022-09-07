@@ -12,10 +12,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ShowBook = ({route}) => {
     
-    const [apiKey, setApiKey] = useState('AIzaSyCxBFNJzM2OegkkQ1QWnSD0go-u1SdA6Ck')
-    const [book, setBook] = useState([])
-    const [bookRead, setBookRead] = useState(0)
-    const [idReadingList, setIdReadingList] = useState(0)
+    const [apiKey, setApiKey] = useState('AIzaSyCxBFNJzM2OegkkQ1QWnSD0go-u1SdA6Ck');
+    const [book, setBook] = useState([]);
+    const [bookRead, setBookRead] = useState(0);
+    const [idReadingList, setIdReadingList] = useState(0);
     const { decodeJwt } = useJwt();
     useEffect(() => {
         axios.get("https://www.googleapis.com/books/v1/volumes/"+route.params.id_book+"?key="+apiKey)
@@ -23,7 +23,7 @@ const ShowBook = ({route}) => {
           setBook(data.data.volumeInfo); 
         })
         .catch((error) => {
-            console.log(error)
+            console.log(error);
         })
 
         axios.get("https://api-pal.herokuapp.com/api/reading_list")
@@ -51,18 +51,17 @@ const ShowBook = ({route}) => {
         .catch((err) => {
         })
         
-        console.log(route.params.id_book);
-
         axios.get("https://api-pal.herokuapp.com/api/reading_list")
         .then((res) => {
             res.data.some(element => {
                 if(element.id_book == route.params.id_book) {
                     setBookRead(element.book_read_number);
-                    setIdReadingList(element.id)
+                    setIdReadingList(element.id);
                 } else {
                     return false;
                 }
             });
+            alert('Votre livre à bien été ajouté');
         })
         .catch((error) => {
             console.log(error)
@@ -75,21 +74,21 @@ const ShowBook = ({route}) => {
                 "book_read_number": 1
             })
             .then((res) => {
-                console.log(res.data)
+                console.log(res.data);
             })
             .catch((error) => {
-                console.error('coucou error')
-                console.error(error)
+                console.error('coucou error');
+                console.error(error);
             })
         } else {            
             await axios.put(`https://api-pal.herokuapp.com/api/reading_list/${idReadingList}`, {
                 "book_read_number": bookRead + 1
             })
             .then((res) => {
-                console.log(res.data)
+                console.log(res.data);
             })
             .catch((error) => {
-                console.error(error)
+                console.error(error);
             })
         }
     }

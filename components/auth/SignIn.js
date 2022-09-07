@@ -23,11 +23,9 @@ const SignIn = () => {
 
     await axios.get('https://api-pal.herokuapp.com/api/user')
     .then((res) => {
-      // console.log(res.data); 
       res.data.some(async function(user) {
         if(user.email == email && user.password == password){
           await createJwt(email, user.id); 
-          console.log('coucou jwt')
           const jwt = process.env['JWT_TOKEN'] + user.id;
           await storeJwtOnStorage(jwt)
           await navigation.navigate( 'HomeBook' );
@@ -44,14 +42,9 @@ const SignIn = () => {
   };
 
   const storeJwtOnStorage = async (token) => {
-    console.log('denfi')
-    console.log(token)
-
-    // console.log(JSON.stringify(token))
     try {
       AsyncStorage.getItem(
         'US48', (err, result) => {
-          console.log(result);
           if(result){
             AsyncStorage.mergeItem(
               'US48',
@@ -62,7 +55,6 @@ const SignIn = () => {
             )    
           }
       });
-      console.log('coucouc storage')
     } catch (e) {
       console.log('impossible de stoker le jwt dans le storage : ', e);
     }

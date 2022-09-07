@@ -5,15 +5,6 @@ import { useState } from 'react';
 const CardBookFavorySearch = ({item, gender}) => {
   const [bookFavorite, setBookFavorite] = useState(0)
   const addToFavorites = async () => {
-        let user_id; 
-        await AsyncStorage.getItem('US48')
-        .then((res_async) => {
-            user_id = decodeJwt(res_async); 
-        })
-        .catch((err) => {
-            // console.log(err)
-        })
-
 
         await axios.get("https://api-pal.herokuapp.com/api/favorite")
         .then((res) => {
@@ -28,7 +19,10 @@ const CardBookFavorySearch = ({item, gender}) => {
         .catch((error) => {
             console.log(error)
         })
-
+        console.log(item.id)
+        console.log(item.volumeInfo.title)
+        console.log(item.volumeInfo.pageCount)
+        console.log(item.volumeInfo.thumbnail)
         if(bookFavorite == 0 || bookFavorite == undefined) { 
             await axios.post('https://api-pal.herokuapp.com/api/favorite', {
                 "id_book": item.id,
@@ -36,12 +30,13 @@ const CardBookFavorySearch = ({item, gender}) => {
                 "title": item.volumeInfo.title, 
                 "page_number": item.volumeInfo.pageCount, 
                 "gender": gender, 
-                "img_book": item.volumeInfo.thumbnail,
+                "img_book": item.volumeInfo.imageLinks.thumbnail,
             })
             .then((res) => {
                 console.log(res.data)
             })
             .catch((error) => {
+                console.log('error')
                 console.log(error)
             })
         } else {            

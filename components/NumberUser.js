@@ -15,7 +15,6 @@ const NumberUser = ({}) => {
                    number++; 
                 }
             });
-            console.log(number)
             setEditorNumber(number) 
         })
         .catch((error) => {

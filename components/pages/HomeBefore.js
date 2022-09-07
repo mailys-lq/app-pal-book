@@ -12,7 +12,6 @@ const HomeBefore = () => {
   const [book, setBook] = useState([])
 
   useEffect(() => {
-    clearAsyncStorage();
     axios.get(`https://www.googleapis.com/books/v1/volumes?q=fiction&orderBy=newest&maxResults=10&key=AIzaSyCxBFNJzM2OegkkQ1QWnSD0go-u1SdA6Ck`)
     .then(data => {
       setBook(data.data.items)
@@ -41,6 +40,7 @@ const HomeBefore = () => {
       <Text style={styles.textHome}>Un abonnement existe pour avoir accès à plus de fonctionnalités !</Text>
       <TouchableOpacity
         style={[styles.button, styles.buttonGreen]}
+        onPress={handleSignIn}
       >
         <Text>Premium</Text>
       </TouchableOpacity>  

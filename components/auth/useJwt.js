@@ -32,8 +32,5 @@ export default function useJwt() {
     createJwt,
     decodeJwt,
     jwt,
-    haveJwt,
-    jwtDecode,
-    jwtExpired
   }
 }

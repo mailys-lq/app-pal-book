@@ -11,7 +11,6 @@ const Header = ({title, update, add, handleEditProfil, addBookRead, returnBack, 
     }
 
     const handleLogout = async () => {
-        await AsyncStorage.removeItem('US48');
 
         navigation.navigate( 'HomeBefore' );
     }
