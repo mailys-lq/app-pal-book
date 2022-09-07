@@ -1,30 +1,72 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react'
 import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-// import { createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import axios from 'axios';
 import ButtonGreen from '../UX/ButtonGreen';
+import useJwt from './useJwt';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+// import { API_LARAVEL_URL } from '@env';
+
 
 const SignIn = () => {
-
+  
+  const { createJwt, decodeJwt, jwtExpired, haveJwt, jwt, jwtDecode } = useJwt();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isConnect, setIsConnect] = useState(false);
   const navigation = useNavigation()
 
-  useEffect(() => {
-    
-  }, [])
+  const handleSignIn = async () => {
+    const url = `https://api-pal.herokuapp.com/api/user`;
 
-  const handleSignIn = async (id) => {
-    navigation.navigate( 'HomeBook' );
+    await axios.get('https://api-pal.herokuapp.com/api/user')
+    .then((res) => {
+      // console.log(res.data); 
+      res.data.some(async function(user) {
+        if(user.email == email && user.password == password){
+          await createJwt(email, user.id); 
+          console.log('coucou jwt')
+          const jwt = process.env['JWT_TOKEN'] + user.id;
+          await storeJwtOnStorage(jwt)
+          await navigation.navigate( 'HomeBook' );
+          return 
+        } else {
+          alert('Email ou mot de passe éronné, veuillez réessayer')
+        }
+      });
+    })
+    .catch((error) => {
+      console.error('coucou error')
+      console.error(error)
+    })
+  };
 
-    const url = `http://api-pal.test/api/user/${id}`
-    // console.log(url)
-    const response = await axios.get(url)
-    // console.log(response.data)
-  }
+  const storeJwtOnStorage = async (token) => {
+    console.log('denfi')
+    console.log(token)
 
-  
+    // console.log(JSON.stringify(token))
+    try {
+      AsyncStorage.getItem(
+        'US48', (err, result) => {
+          console.log(result);
+          if(result){
+            AsyncStorage.mergeItem(
+              'US48',
+            )              
+          } else {
+            AsyncStorage.setItem(
+              'US48',
+            )    
+          }
+      });
+      console.log('coucouc storage')
+    } catch (e) {
+      console.log('impossible de stoker le jwt dans le storage : ', e);
+    }
+  };
 
   return (
     <KeyboardAvoidingView

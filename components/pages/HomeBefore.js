@@ -5,13 +5,22 @@ import { Button, Image, StyleSheet, Text, View, TouchableOpacity, ScrollView } f
 import ListBook from '../book/ListBook'
 import NumberUser from '../NumberUser'
 import ButtonGreen from '../UX/ButtonGreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import BackgroundBook from '../UX/BackgroundBook';
 
 const HomeBefore = () => {
   const navigation = useNavigation(); 
   const [book, setBook] = useState([])
 
+  const clearAsyncStorage = async() => {
+    console.log('coucoucdozfcizhf')
+    AsyncStorage.removeItem('US48');
+  }
+
+
   useEffect(() => {
-    axios.get('https://www.googleapis.com/books/v1/volumes?q=in&orderBy=newest&maxResults=10&key=AIzaSyCxBFNJzM2OegkkQ1QWnSD0go-u1SdA6Ck')
+    clearAsyncStorage();
+    axios.get(`https://www.googleapis.com/books/v1/volumes?q=fiction&orderBy=newest&maxResults=10&key=AIzaSyCxBFNJzM2OegkkQ1QWnSD0go-u1SdA6Ck`)
     .then(data => {
       setBook(data.data.items)
     })
@@ -25,6 +34,7 @@ const HomeBefore = () => {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
+      <BackgroundBook/>
       <Image style={styles.icon} source={require('../../assets/icon.png')} />
       <Text style={styles.textHome}>Vous voulez mettre de l'ordre dans vos lectures ? {"\n"}Vous êtes au bon endroit !</Text>
       <ButtonGreen backgroundGreen={true} nameButton="Connexion" pressButton={handleSignIn}/>
@@ -34,14 +44,21 @@ const HomeBefore = () => {
       >
         <Text>Inscription</Text>
       </TouchableOpacity>   
-      <ListBook nameList="Nos suggestions du mois" book={book}/>   
+      <ListBook nameList="Nos suggestions du mois" book={book} noClick={true}/>   
       <Text style={styles.textHome}>Un abonnement existe pour avoir accès à plus de fonctionnalités !</Text>
       <TouchableOpacity
         style={[styles.button, styles.buttonGreen]}
       >
         <Text>Premium</Text>
       </TouchableOpacity>  
-      <ListBook nameList="Ils collaborent avec nous"/>
+      {/* <ListBook nameList="Ils collaborent avec nous"/> */}
+      <View style={{width: '100%'}}>
+          <Text style={{marginLeft: 10, width: '100%'}}>Ils collaborent avec nous</Text>
+          <View style={{display: 'flex', flexDirection: 'row'}}>
+            <Image source={require('../../assets/books/logo-memo.png')}  style={{width: 105,height: 105}} />                       
+            <Image source={require('../../assets/books/maison-editions-verone.png')}  style={{width: 105,height: 105}} />                       
+          </View>
+        </View>
       <NumberUser/>
     </ScrollView>
   );

@@ -43,14 +43,14 @@ const EditProfil = () => {
             <Image source={require('../../assets/books/livre-musso-2.png')} style={styles.imageProfilUser}/>
             <Text>Photo</Text>
             {fileResponse.map((file, index) => (
-        <Text
-          key={index.toString()}
-          style={styles.uri}
-          numberOfLines={1}
-          ellipsizeMode={'middle'}>
-          {file?.uri}
-        </Text>
-      ))}
+                <Text
+                key={index.toString()}
+                style={styles.uri}
+                numberOfLines={1}
+                ellipsizeMode={'middle'}>
+                {file?.uri}
+                </Text>
+            ))}
             <Button title="Select 📑" onPress={openGallery} />
 
         </View>

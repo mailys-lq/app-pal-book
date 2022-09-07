@@ -1,28 +1,113 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, View, Text, Image } from 'react-native';
-import ListBook from '../book/ListBook';
+import ListBook from './ListBook';
 import NumberUser from '../NumberUser';
 import Header from '../UX/header/Header';
 import axios from 'axios';
 import HTMLView from 'react-native-htmlview';
+import useJwt from '../auth/useJwt';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const ShowBook = ({route}) => {
+    
     const [apiKey, setApiKey] = useState('AIzaSyCxBFNJzM2OegkkQ1QWnSD0go-u1SdA6Ck')
     const [book, setBook] = useState([])
-    // console.log()
+    const [bookRead, setBookRead] = useState(0)
+    const [idReadingList, setIdReadingList] = useState(0)
+    const { createJwt, decodeJwt, jwtExpired, haveJwt, jwt, jwtDecode } = useJwt();
+
     console.log(route.params.id_book);
     useEffect(() => {
         axios.get("https://www.googleapis.com/books/v1/volumes/"+route.params.id_book+"?key="+apiKey)
         .then(data => {
           setBook(data.data.volumeInfo); 
         })
+        .catch((error) => {
+            console.log(error)
+        })
+
+        axios.get("https://api-pal.herokuapp.com/api/reading_list")
+        .then((res) => {
+            res.data.some(element => {
+                if(element.id_book == route.params.id_book) {
+                    setBookRead(element.book_read);
+                    console.log(element.book_read); 
+                    
+                } else {
+                    return false;
+                }
+            });
+        })
+        .catch((error) => {
+
+        })
+
     }, [])
+
+    addBookRead = async () => {
+        let user_id; 
+        await AsyncStorage.getItem('US48')
+        .then((res_async) => {
+            console.log(res_async)
+            user_id = decodeJwt(res_async); 
+        })
+        .catch((err) => {
+        })
+        
+        // console.log(route.params.id_book);
+        // // AsyncStorage.removeItem('user');
+        // console.log(Date.now())
+        // console.log('coucou read')
+        // axios.get("https://api-pal.herokuapp.com/api/reading_list")
+        // .then((res) => {
+        //     res.data.some(element => {
+        //         if(element.id_book == route.params.id_book) {
+        //             setBookRead(element.book_read_number);
+        //             setIdReadingList(element.id)
+        //         } else {
+        //             return false;
+        //         }
+        //     });
+        // })
+        // .catch((error) => {
+        //     console.log(error)
+        // })
+
+        if(bookRead == 0 || bookRead == undefined) { 
+            console.log('user_id')
+            console.log(user_id)
+            await axios.post('https://api-pal.herokuapp.com/api/reading_list', {
+                "id_book": route.params.id_book,
+                "user_id": 1, //id récupérer en local storage 
+                "book_read_number": 1
+            })
+            .then((res) => {
+                console.log(res.data)
+            })
+            .catch((error) => {
+                console.error('coucou error')
+                console.error(error)
+            })
+        } else {            
+            console.log('coducidj')
+            await axios.put(`https://api-pal.herokuapp.com/api/reading_list/${idReadingList}`, {
+                "book_read_number": bookRead + 1
+            })
+            .then((res) => {
+                console.log(res.data)
+            })
+            .catch((error) => {
+                console.error('coucou error')
+                console.error(error)
+            })
+        }
+    }
 
   return (  
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
-        <Header title={book.title} add={true} returnBack={true} style={{zIndex: 10, position: 'relative'}}/>
+        <Header title={book.title} add={true} returnBack={true} addBookRead={addBookRead} style={{zIndex: 10, position: 'relative'}}/>
         <View style={[{position: 'relative', zIndex: 4}]}>
             <Image source={{uri: book.imageLinks == undefined ? "https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.webp" : book.imageLinks.thumbnail}} style={styles.imageBookCenter}/>
             <Image source={{uri: book.imageLinks == undefined ? "https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.webp" : book.imageLinks.smallThumbnail}} style={[styles.imageBook, styles.imageBookLeft]}/>

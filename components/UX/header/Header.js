@@ -1,21 +1,29 @@
 
 import { useNavigation } from '@react-navigation/native';
 import { Image, StyleSheet, Text, TouchableOpacity, ImageBackground } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Header = ({title, update, add, handleEditProfil, addBookFavory, returnBack}) => {
+const Header = ({title, update, add, handleEditProfil, addBookRead, returnBack, logout}) => {
     const navigation = useNavigation()
 
     const handleReturnBack = async () => {
         navigation.goBack();  
     }
+
+    const handleLogout = async () => {
+        await AsyncStorage.removeItem('US48');
+
+        navigation.navigate( 'HomeBefore' );
+    }
     
     return (
         <ImageBackground source={require('../../../assets/header.png')} resizeMode="cover" style={{height: 180, width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200, position: 'relative', top: -30}}>
             <Text style={{width: 200, textAlign: 'center'}}>{title}</Text>
-            <TouchableOpacity onPress={addBookFavory} style={[styles.buttonAdd, add == true ? {display: 'flex'} : {display: 'none'}]}>
+            <TouchableOpacity onPress={addBookRead} style={[styles.buttonAdd, add == true ? {display: 'flex'} : {display: 'none'}]}>
                 <Text style={{position: 'absolute', fontSize: 30}}>+</Text>
             </TouchableOpacity>
             
+            <TouchableOpacity style={[{padding: 10, position: 'absolute', left: 0}, logout == true ? {display: 'flex'} : {display: 'none'}]} onPress={handleLogout}><Image style={{width: 30, height: 30}} source={require('../../../assets/logout.png')}/></TouchableOpacity>
             <TouchableOpacity style={[{padding: 10, position: 'absolute', left: 0}, returnBack == true ? {display: 'flex'} : {display: 'none'}]} onPress={handleReturnBack}><Image style={{width: 30, height: 30}} source={require('../../../assets/return-back.png')}/></TouchableOpacity>
             <TouchableOpacity onPress={handleEditProfil} style={[styles.buttonEdit, update == true ? {display: 'flex'} : {display: 'none'}]}>
                 <Image source={require('../../../assets/edit-icon.png')}  style={[styles.iconImageEdit, {width: 20, height: 20} ]} resizeMode="cover"/>             

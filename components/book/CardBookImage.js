@@ -1,11 +1,17 @@
-import { Image, StyleSheet, View } from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 
-const CardBookImage = ({}) => {
-
-  return (
-    
+const CardBookImage = ({item}) => {
+  return (    
       <View style={styles.icon}>
-        <Image style={styles.icon} source={require('../../assets/books/vurginie-grimaldi-livre.png')} />
+        <TouchableOpacity id_book={item.id_book} onPress={() => showBook(item.id_book)}>
+          <Image 
+            resizeMode="cover"
+            style={styles.itemImage} 
+            source={{
+              uri: item.volumeInfo.imageLinks == undefined ? "https://cdn.vectorstock.com/i/preview-1x/48/06/image-preview-icon-picture-placeholder-vector-31284806.webp" : item.volumeInfo.imageLinks.thumbnail,
+            }}
+            />
+        </TouchableOpacity>
       </View>      
   );
 }

@@ -1,11 +1,31 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import axios from 'axios';
 
-const NumberUser = ({}) => {    
+const NumberUser = ({}) => {  
+    const [userNumber, setUserNumber] = useState('')
+    const [editorNumber, setEditorNumber] = useState(0)
+    useEffect(() => {
+        axios.get("https://api-pal.herokuapp.com/api/user")
+        .then((res) => {
+            setUserNumber(res.data.length)
+            let number = 0; 
+            array.forEach(user => {
+                if(user.editor_or_reader == 'editor') {
+                   number++; 
+                }
+            });
+            console.log(number)
+            setEditorNumber(number) 
+        })
+        .catch((error) => {
+    
+        })
+    }, [])
     return (
         <View style={styles.containerNumberUser}>
-            <Text style={[styles.textGlobal, styles.user]}> 22 utilisateurs</Text>
-            <Text style={[styles.textGlobal, styles.homeEditions]}>22 maisons d'éditions</Text>
+            <Text style={[styles.textGlobal, styles.user]}> {userNumber} utilisateurs</Text>
+            <Text style={[styles.textGlobal, styles.homeEditions]}>{editorNumber} maisons d'éditions</Text>
         </View>
     )
 }
