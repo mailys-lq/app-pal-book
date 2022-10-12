@@ -12,9 +12,10 @@ const FavoriesList = ({route}) => {
   const [book, setBook] = useState([])
   const [apiKey, setApiKey] = useState('AIzaSyCxBFNJzM2OegkkQ1QWnSD0go-u1SdA6Ck')
 
-  useEffect(() => {
+  useEffect(async() => {
+    console.log('ciyciy')
     let book_push = [];
-    axios.get("https://api-pal.herokuapp.com/api/favorite")
+    await axios.get("https://api-pal.herokuapp.com/api/favorite")
       .then((res) => {
           res.data.some(async function(book) {
             axios.get("https://www.googleapis.com/books/v1/volumes/"+book.id_book+"?key="+apiKey)

@@ -44,6 +44,9 @@ const HomeBefore = () => {
         placeholder="Votre recherche ... " 
         onKeyPress={handleSubmit}
       />
+      <TouchableOpacity style={{width: 30, height: 30, backgroundColor: '#fff', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius:50,position: 'absolute', top: 40, right: 40 }} onPress={handleSubmit}>
+        <Text>-></Text>
+      </TouchableOpacity>
       
       {result.map((bookInfo, i) => (
         <TouchableOpacity  key={i} id_book={bookInfo.id} onPress={() => showBook(bookInfo.id)}>

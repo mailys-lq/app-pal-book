@@ -1,4 +1,4 @@
-import { StyleSheet, View, ScrollView, TextInput, FlatList } from 'react-native';
+import { StyleSheet, View, ScrollView, TextInput, FlatList, TouchableOpacity, Text } from 'react-native';
 import NumberUser from '../../NumberUser';
 import CardBookFavorySearch from '../../book/CardBookFavorySearch';
 import Header from '../../UX/header/Header';
@@ -15,7 +15,7 @@ const FavoriesListAdd = ({route}) => {
     let book_push = [];
     axios.get("https://api-pal.herokuapp.com/api/reading_list")
       .then((res) => {
-          res.data.some(async function(book) {
+          res.data.some(function(book) {
             axios.get("https://www.googleapis.com/books/v1/volumes/"+book.id_book+"?key="+apiKey)
             .then(data => {
               book_push.push(data.data);
@@ -27,6 +27,14 @@ const FavoriesListAdd = ({route}) => {
           console.log(error)
         })
   }, [])
+
+  const handleSubmit = () => {
+
+    axios.get("https://www.googleapis.com/books/v1/volumes?q="+book+"&key="+apiKey)
+    .then(data => {
+      setBook(data.data.items)
+    })
+  }
   return (
     <ScrollView style={styles.container} contentContainerStyle={{ flexGrow: 1, alignItems: 'center' }}>
         <Header add={true} title='Listes des favories' returnBack={true}/>
@@ -37,6 +45,9 @@ const FavoriesListAdd = ({route}) => {
           placeholder="Votre recherche ... " 
           keyboardType="text"
         />
+        <TouchableOpacity style={{width: 30, height: 30, backgroundColor: '#fff', display: 'flex', justifyContent: 'center', alignItems: 'center', borderRadius:50,position: 'absolute', top: 40, right: 40 }} onPress={handleSubmit}>
+          <Text>-></Text>
+        </TouchableOpacity>
         <View style={{display: 'flex', width: '100%', flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
           <FlatList
             data={book}

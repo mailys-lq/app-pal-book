@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { Image, StyleSheet, Text, View, ScrollView } from 'react-native';
+import { Image, StyleSheet, Text, View, ScrollView, DevSettings } from 'react-native';
 import ListBook from '../../book/ListBook';
 import NumberUser from '../../NumberUser';
 import Header from '../../UX/header/Header';
